@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KJV Bible Reading Plan 2026–2027</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f4f0;color:#1a1a1a;min-height:100vh;padding:1rem}
+  .container{max-width:680px;margin:0 auto}
+  h1{font-size:20px;font-weight:600;margin-bottom:4px;color:#1a1a1a}
+  .subtitle{font-size:13px;color:#888;margin-bottom:1.25rem}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.25rem}
+  .stat{background:#fff;border-radius:10px;padding:.75rem 1rem;border:1px solid #e8e6e0}
+  .stat-label{font-size:11px;color:#888;margin-bottom:3px;text-transform:uppercase;letter-spacing:.04em}
+  .stat-val{font-size:18px;font-weight:600;color:#1a1a1a}
+  .prog-wrap{background:#fff;border-radius:10px;padding:1rem 1.25rem;border:1px solid #e8e6e0;margin-bottom:1.25rem}
+  .prog-labels{display:flex;justify-content:space-between;font-size:11px;color:#888;margin-bottom:8px}
+  .prog-bar{background:#eee;border-radius:99px;height:10px;overflow:hidden}
+  .prog-fill{height:100%;background:#1D9E75;border-radius:99px;transition:width .4s}
+  .prog-pct{text-align:center;font-size:13px;color:#555;margin-top:6px}
+  .months{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem}
+  .mbtn{font-size:12px;padding:5px 12px;border-radius:99px;border:1px solid #ddd;background:#fff;color:#555;cursor:pointer;white-space:nowrap;font-family:inherit}
+  .mbtn:active{opacity:.7}
+  .mbtn.active{background:#1D9E75;color:#fff;border-color:#1D9E75;font-weight:500}
+  .table-wrap{background:#fff;border-radius:10px;border:1px solid #e8e6e0;overflow:hidden}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{font-size:11px;font-weight:500;color:#888;text-align:left;padding:8px 10px;border-bottom:1px solid #eee;text-transform:uppercase;letter-spacing:.04em;background:#fafaf8}
+  td{padding:9px 10px;border-bottom:1px solid #f0ede8;color:#1a1a1a;vertical-align:middle}
+  tr:last-child td{border-bottom:none}
+  tr.done td.r{color:#bbb;text-decoration:line-through}
+  .dc{font-variant-numeric:tabular-nums;color:#aaa;width:30px;font-size:11px}
+  .dt{white-space:nowrap;width:76px;color:#888;font-size:12px}
+  .r{line-height:1.45}
+  .ck{width:32px;text-align:center}
+  input[type=checkbox]{width:17px;height:17px;cursor:pointer;accent-color:#1D9E75}
+  .badge{display:inline-block;font-size:9px;padding:1px 5px;border-radius:4px;margin-left:4px;background:#E1F5EE;color:#0F6E56;vertical-align:middle;font-weight:600}
+  .today-row{background:#f0fdf8}
+  .save-msg{font-size:11px;color:#1D9E75;text-align:right;margin-bottom:.5rem;min-height:16px}
+  .footer{text-align:center;font-size:11px;color:#aaa;margin-top:1.5rem;padding-bottom:1rem}
+  @media(max-width:420px){
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .stats .stat:last-child{grid-column:span 2}
+    h1{font-size:17px}
+    td,th{padding:7px 8px}
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>KJV Bible Reading Plan</h1>
+  <p class="subtitle">April 6, 2026 – April 5, 2027 &nbsp;·&nbsp; Old Testament then New Testament &nbsp;·&nbsp; Every day</p>
+  <div class="stats">
+    <div class="stat"><div class="stat-label">Completed</div><div class="stat-val" id="s-done">0 / 365</div></div>
+    <div class="stat"><div class="stat-label">Progress</div><div class="stat-val" id="s-pct">0%</div></div>
+    <div class="stat"><div class="stat-label">Remaining</div><div class="stat-val" id="s-rem">365</div></div>
+  </div>
+  <div class="prog-wrap">
+    <div class="prog-labels"><span>Genesis 1</span><span>Revelation 22</span></div>
+    <div class="prog-bar"><div class="prog-fill" id="prog" style="width:0%"></div></div>
+    <div class="prog-pct" id="prog-pct">0% complete</div>
+  </div>
+  <div class="save-msg" id="save-msg"></div>
+  <div class="months" id="months"></div>
+  <div class="table-wrap">
+    <table><thead><tr>
+      <th class="dc">#</th>
+      <th class="dt">Date</th>
+      <th>Reading</th>
+      <th class="ck">Done</th>
+    </tr></thead>
+    <tbody id="tbody"></tbody></table>
+  </div>
+  <div class="footer">Progress saves automatically to this browser. Bookmark this page to return anytime.</div>
+</div>
+<script>
+const BOOKS=[["Genesis",50],["Exodus",40],["Leviticus",27],["Numbers",36],["Deuteronomy",34],["Joshua",24],["Judges",21],["Ruth",4],["1 Samuel",31],["2 Samuel",24],["1 Kings",22],["2 Kings",25],["1 Chronicles",29],["2 Chronicles",36],["Ezra",10],["Nehemiah",13],["Esther",10],["Job",42],["Psalms",150],["Proverbs",31],["Ecclesiastes",12],["Song of Solomon",8],["Isaiah",66],["Jeremiah",52],["Lamentations",5],["Ezekiel",48],["Daniel",12],["Hosea",14],["Joel",3],["Amos",9],["Obadiah",1],["Jonah",4],["Micah",7],["Nahum",3],["Habakkuk",3],["Zephaniah",3],["Haggai",2],["Zechariah",14],["Malachi",4],["Matthew",28],["Mark",16],["Luke",24],["John",21],["Acts",28],["Romans",16],["1 Corinthians",16],["2 Corinthians",13],["Galatians",6],["Ephesians",6],["Philippians",4],["Colossians",4],["1 Thessalonians",5],["2 Thessalonians",3],["1 Timothy",6],["2 Timothy",4],["Titus",3],["Philemon",1],["Hebrews",13],["James",5],["1 Peter",5],["2 Peter",3],["1 John",5],["2 John",1],["3 John",1],["Jude",1],["Revelation",22]];
+const ALL=[];
+for(const[b,n]of BOOKS)for(let c=1;c<=n;c++)ALL.push([b,c]);
+const TOTAL=365,CHAPTERS=ALL.length,EXTRA=CHAPTERS-TOTAL*3;
+const START=new Date(2026,3,6);
+const TODAY=new Date();
+const KEY='kjv-plan-v1';
+const plan=[];
+let ci=0;
+for(let d=0;d<TOTAL;d++){
+  const gets4=Math.floor((d+1)*EXTRA/TOTAL)>Math.floor(d*EXTRA/TOTAL);
+  const count=3+(gets4?1:0);
+  const chs=ALL.slice(ci,ci+count);ci+=count;
+  const date=new Date(START);date.setDate(date.getDate()+d);
+  const groups=[];let cur=null;
+  for(const[b,c]of chs){if(cur&&cur.b===b)cur.e=c;else{cur={b,s:c,e:c};groups.push(cur);}}
+  const reading=groups.map(g=>g.s===g.e?`${g.b} ${g.s}`:`${g.b} ${g.s}–${g.e}`).join(', ');
+  const mk=`${date.getFullYear()}-${String(date.getMonth()).padStart(2,'0')}`;
+  plan.push({d,dayNum:d+1,date,reading,count,monthKey:mk,isFour:count===4,isToday:date.toDateString()===TODAY.toDateString()});
+}
+const monthKeys=[...new Set(plan.map(p=>p.monthKey))];
+const monthNames=monthKeys.map(k=>{const[y,m]=k.split('-');return new Date(+y,+m,1).toLocaleDateString('en-US',{month:'short',year:'numeric'})});
+let activeMonth='all';
+let checked={};
+let saveTimer=null;
+try{const s=localStorage.getItem(KEY);if(s)checked=JSON.parse(s);}catch(e){}
+function save(){
+  try{localStorage.setItem(KEY,JSON.stringify(checked));}catch(e){}
+  const el=document.getElementById('save-msg');
+  el.textContent='Progress saved';
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(()=>{el.textContent='';},2000);
+}
+function updateStats(){
+  const done=Object.values(checked).filter(Boolean).length;
+  const pct=(done/365*100).toFixed(1);
+  document.getElementById('s-done').textContent=done+' / 365';
+  document.getElementById('s-pct').textContent=pct+'%';
+  document.getElementById('s-rem').textContent=365-done;
+  document.getElementById('prog').style.width=pct+'%';
+  document.getElementById('prog-pct').textContent=pct+'% complete';
+}
+function renderMonths(){
+  const div=document.getElementById('months');div.innerHTML='';
+  const all=document.createElement('button');
+  all.className='mbtn'+(activeMonth==='all'?' active':'');
+  all.textContent='All';all.onclick=()=>{activeMonth='all';renderMonths();renderTable();};
+  div.appendChild(all);
+  monthKeys.forEach((k,i)=>{
+    const b=document.createElement('button');
+    b.className='mbtn'+(activeMonth===k?' active':'');
+    b.textContent=monthNames[i];
+    b.onclick=()=>{activeMonth=k;renderMonths();renderTable();};
+    div.appendChild(b);
+  });
+}
+function renderTable(){
+  const tbody=document.getElementById('tbody');tbody.innerHTML='';
+  const rows=activeMonth==='all'?plan:plan.filter(p=>p.monthKey===activeMonth);
+  rows.forEach(p=>{
+    const tr=document.createElement('tr');
+    if(p.isToday)tr.classList.add('today-row');
+    if(checked[p.d])tr.classList.add('done');
+    const dateStr=p.date.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+    const badge=p.isFour?'<span class="badge">4</span>':'';
+    tr.innerHTML=`<td class="dc">${p.dayNum}</td><td class="dt">${dateStr}</td><td class="r">${p.reading}${badge}</td><td class="ck"><input type="checkbox" ${checked[p.d]?'checked':''} data-d="${p.d}"></td>`;
+    tbody.appendChild(tr);
+  });
+  tbody.querySelectorAll('input[type=checkbox]').forEach(cb=>{
+    cb.addEventListener('change',e=>{
+      const d=+e.target.dataset.d;
+      checked[d]=e.target.checked;
+      const tr=e.target.closest('tr');
+      if(e.target.checked)tr.classList.add('done');else tr.classList.remove('done');
+      updateStats();save();
+    });
+  });
+}
+renderMonths();renderTable();updateStats();
+</script>
+</body>
+</html>
